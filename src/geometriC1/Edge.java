@@ -2,13 +2,14 @@ package geometriC1;
 
 import java.util.ArrayList;
 import java.util.List;
+import points.AbstractPoint;
 
 class Edge {
-	Point x, y;
+	AbstractPoint a, b;
 	
-	public Edge(Point _x, Point _y){
-		x = _x;
-		y = _y;
+	public Edge(AbstractPoint _a, AbstractPoint _b){
+		a = _a;
+		b = _b;
 		}
 	
 }
