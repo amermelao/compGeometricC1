@@ -21,6 +21,7 @@ public class Triangulation{
 			
 			List<Edge> triang = new ArrayList<Edge>();
 		
+			/* Comienzo uniendo los vértices 0 de cada polígono */
 			Edge primer = new Edge(afuera.getVertex(0), adentro.getVertex(0));
 			triang.add(primer);
 		
@@ -41,6 +42,11 @@ public class Triangulation{
 					Edge nuevo = new Edge(currEdge.a, currVertex);
 					triang.add(nuevo);
 					currEdge = nuevo;
+					
+					/* Agrego también a la triangulación el edge del polígono interno */
+					Edge nuevo2 = new Edge(adentro.getVertex(j-1), adentro.getVertex(j));
+					triang.add(nuevo2);
+					
 					j++;
 				}else{
 					actual_afuera++;
@@ -49,6 +55,10 @@ public class Triangulation{
 					Edge cierra = new Edge(afuera.getVertex(actual_afuera), prevVertex);
 					triang.add(cierra);
 					currEdge = cierra;
+					
+					/* Agrego también a la triangulación el edge del polígono externo */
+					Edge nuevo2 = new Edge(afuera.getVertex(actual_afuera-1), afuera.getVertex(actual_afuera));
+					triang.add(nuevo2);
 									
 					/* Mientras currVertex esté a la izquierda de currEdge */
 					while(Edge.toLeft(currEdge, currVertex)){
@@ -66,8 +76,8 @@ public class Triangulation{
 				}
 			}
 			
-			/* En el caso que el poligono de afuera tenga más vértices que el
-			 * de adentro, une los vértices que "sobran" al último vértice interno */
+			/* En el caso que el poligono de afuera tenga más vértices que el de
+			 * adentro, une los vértices que "sobran" al último vértice interno */
 			while(actual_afuera < verticesAfuera){
 				actual_afuera++;
 				AbstractPoint currVertexAfuera = afuera.getVertex(actual_afuera);

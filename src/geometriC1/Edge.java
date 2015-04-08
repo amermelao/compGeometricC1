@@ -14,7 +14,7 @@ class Edge {
 		}
 	
 	private static int area2(AbstractPoint a, AbstractPoint b, AbstractPoint c){
-		return (b.x - a.x)*(c.y - a.y) - (b.y - a.y)*(c.x - a.x);
+		return ((int)b.x - (int)a.x)*((int)c.y - (int)a.y) - ((int)b.y - (int)a.y)*((int)c.x - (int)a.x);
 	}
 	
 	public static boolean toLeft(Edge e, AbstractPoint p){
