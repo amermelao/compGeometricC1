@@ -12,30 +12,34 @@ import geometriC1.ConvexHull;
 
 public class Triangulation{
 
-	public List<Edge> triangulate(List<PoligonoConvexo> pols){
-		List<Edge> triangulacion = new ArrayList<Edge>();
+	public List triangulate(List<PoligonoConvexo> pols){
+		List triangulaciones = new ArrayList<>();
 		
 		for(int i=0; i<pols.size()-1; i++){
 			PoligonoConvexo afuera = pols.get(i);
 			PoligonoConvexo adentro = pols.get(i+1);
+			
+			List<Edge> triang = new ArrayList<Edge>();
 		
 			Edge primer = new Edge(afuera.getVertex(0), adentro.getVertex(0));
-			triangulacion.add(primer);
+			triang.add(primer);
 		
 			int actual_afuera = 0;
 			Edge currEdge = primer;
 			
+			int verticesAdentro = adentro.points.size();
+			int verticesAfuera = afuera.points.size();
+			
 			/* j es el indice actual del poligono "interior" */
 			int j = 1;	
+			AbstractPoint currVertex = adentro.getVertex(j); 
 			
-			/*TODO ojo: esto termina cuando se acaban los vertices del poligono 
-			 * interior, si sobran vertices en el poli exterior quedan sin unir */
-			while(j < adentro.points.size()){
-				AbstractPoint currVertex = adentro.getVertex(j); 
+			while(j < verticesAdentro){
+				currVertex = adentro.getVertex(j); 
 				/* Si currVertex está a la derecha de currEdge */
-				if(ConvexHull.cross(currEdge, currVertex) < 0 /*TODO revisar esto*/){
+				if(!Edge.toLeft(currEdge, currVertex)){
 					Edge nuevo = new Edge(currEdge.a, currVertex);
-					triangulacion.add(nuevo);
+					triang.add(nuevo);
 					currEdge = nuevo;
 					j++;
 				}else{
@@ -43,25 +47,38 @@ public class Triangulation{
 					/* Agrega el arco "intermedio" */
 					AbstractPoint prevVertex = adentro.getVertex(j-1);
 					Edge cierra = new Edge(afuera.getVertex(actual_afuera), prevVertex);
-					triangulacion.add(cierra);
+					triang.add(cierra);
 					currEdge = cierra;
 									
 					/* Mientras currVertex esté a la izquierda de currEdge */
-					while(ConvexHull.cross(currEdge, currVertex) < 0 /*TODO revisar*/){
+					while(Edge.toLeft(currEdge, currVertex)){
 						actual_afuera++;
 						Edge c2 = new Edge(afuera.getVertex(actual_afuera), prevVertex);
-						triangulacion.add(c2);
+						triang.add(c2);
 						currEdge = c2;
 					}
 						
 					/* Une los dos vertices */
 					Edge nuevo = new Edge(afuera.getVertex(actual_afuera), currVertex);
-					triangulacion.add(nuevo);
+					triang.add(nuevo);
 					currEdge = nuevo;
 					j++;
 				}
 			}
+			
+			/* En el caso que el poligono de afuera tenga más vértices que el
+			 * de adentro, une los vértices que "sobran" al último vértice interno */
+			while(actual_afuera < verticesAfuera){
+				actual_afuera++;
+				AbstractPoint currVertexAfuera = afuera.getVertex(actual_afuera);
+				Edge nuevo = new Edge(currVertexAfuera, currVertex);
+				triang.add(nuevo);
+			}
+			
+			triangulaciones.add(triang);
 		}
+		
+		return triangulaciones;
 	}
 
 }

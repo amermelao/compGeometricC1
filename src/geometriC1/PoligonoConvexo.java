@@ -21,4 +21,8 @@ public class PoligonoConvexo <F extends Number,E extends AbstractPoint<F>>{
 		}
 		return toReturn;
 	}
+	
+	public AbstractPoint getVertex(int i){
+		return this.points.get(i);
+	}
 }

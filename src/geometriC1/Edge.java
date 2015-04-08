@@ -3,6 +3,7 @@ package geometriC1;
 import java.util.ArrayList;
 import java.util.List;
 import points.AbstractPoint;
+import geometriC1.ConvexHull;
 
 class Edge {
 	AbstractPoint a, b;
@@ -11,5 +12,15 @@ class Edge {
 		a = _a;
 		b = _b;
 		}
+	
+	private static int area2(AbstractPoint a, AbstractPoint b, AbstractPoint c){
+		return (b.x - a.x)*(c.y - a.y) - (b.y - a.y)*(c.x - a.x);
+	}
+	
+	public static boolean toLeft(Edge e, AbstractPoint p){
+		AbstractPoint a = e.a;
+		AbstractPoint b = e.b;
+		return area2(a, b, p) > 0;
+	}
 	
 }
