@@ -5,10 +5,20 @@ import java.util.List;
 
 import points.AbstractPoint;
 
-public class PoligonoConvexo <E extends Number>{
+public class PoligonoConvexo <F extends Number,E extends AbstractPoint<F>>{
 	
-	public List<AbstractPoint<E>> points = new ArrayList<AbstractPoint<E>>();
+	public List<E> points;
 	
-	
+	public PoligonoConvexo(List<E> aPoints){
+		points = aPoints;
+	}
 
+	@Override
+	public String toString() {
+		String toReturn = "|";
+		for(E aPoint: points){
+			toReturn = toReturn + " " + aPoint.toString() + " | ";
+		}
+		return toReturn;
+	}
 }

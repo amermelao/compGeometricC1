@@ -2,6 +2,10 @@ package points;
 
 public class IntPoint extends AbstractPoint<Integer>{
 
+	public IntPoint(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
 	@Override
 	public int compareTo(AbstractPoint<Integer> p) {
 		
@@ -35,5 +39,6 @@ public class IntPoint extends AbstractPoint<Integer>{
 		// TODO Auto-generated method stub
 		return (A.x - this.x) * (B.y - this.y) - (A.y - this.y) * (B.x - this.x);
 	}
+
 
 }
