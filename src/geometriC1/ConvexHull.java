@@ -1,7 +1,10 @@
 package geometriC1;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,7 +33,7 @@ public class ConvexHull {
  
 			// Build lower hull
 			for (IntPoint aPoint:P) {
-				while (k1 >= 1 && cross(lower.get(k1 - 1), lower.get(k1), aPoint) <= 0){
+				while (k1 >= 1 && cross(lower.get(k1 - 1), lower.get(k1), aPoint) < 0){
 					lower.remove(k1); 
 					k1--;
 				}
@@ -42,7 +45,7 @@ public class ConvexHull {
 			
 			k2 = -1;
 			for (int cont = P.size() - 1; cont >= 0; cont--) {
-				while (k2 >= 1 && cross(upper.get(k2 - 1), upper.get(k2), P.get(cont)) <= 0){
+				while (k2 >= 1 && cross(upper.get(k2 - 1), upper.get(k2), P.get(cont)) < 0){
 					upper.remove(k2);
 					k2--;
 				}
@@ -73,10 +76,10 @@ public class ConvexHull {
 		
 		return new PoligonoConvexo<Integer, IntPoint>(points);
 	}
-	public List<PoligonoConvexo<Integer,IntPoint>> getRingsOfConvexFigure() throws IOException{
+	public List<PoligonoConvexo<Integer,IntPoint>> getRingsOfConvexFigure(String name) throws IOException{
 		List<PoligonoConvexo<Integer, IntPoint>> toReturn = new ArrayList<PoligonoConvexo<Integer, IntPoint>>();
 		
-		BufferedReader f = new BufferedReader(new FileReader("input10int.txt")); 	// "hull.in"  Input Sample => size x y x y x y x y
+		BufferedReader f = new BufferedReader(new FileReader(name)); 	// "hull.in"  Input Sample => size x y x y x y x y
 		StringTokenizer st = new StringTokenizer(f.readLine());
 		List<IntPoint> p = new ArrayList<IntPoint>();
 		
@@ -84,13 +87,18 @@ public class ConvexHull {
 		int anchoX = Integer.parseInt(st.nextToken());
 		int pointsN = Integer.parseInt(st.nextToken());
 		
-		toReturn.add(conVexPoligonFromSquare(anchoX, largoY));
+		p.add(new IntPoint(0, 0));
+		p.add(new IntPoint(0, largoY));
+		p.add(new IntPoint(anchoX, largoY));
+		p.add(new IntPoint(anchoX, 0));
+		//toReturn.add(conVexPoligonFromSquare(anchoX, largoY));
 		
 		for (int i = 0; i < pointsN; i++) {
 			st = new StringTokenizer(f.readLine());
 			IntPoint aux = new IntPoint(Integer.parseInt(st.nextToken()),Integer.parseInt(st.nextToken()));
 			p.add(aux);
 		}
+		
 		
 		f.close();
 		
@@ -109,12 +117,22 @@ public class ConvexHull {
 		return toReturn;
 	}
 	
+	public void doDebug(String value) throws IOException{
+		int cont = 0;
+		for(PoligonoConvexo<Integer,IntPoint> aHull:new ConvexHull().getRingsOfConvexFigure(value)){
+			BufferedWriter out = new BufferedWriter(new FileWriter(new File("data" + cont + ".dat")));
+			cont++;
+			for(IntPoint aPoint: aHull.points){
+				out.write("" + aPoint.x + " " + aPoint.y);
+				out.newLine();
+			}
+			
+			out.close();
+		}
+	}
 	public static void main(String[] args) throws IOException {
  
-		for(PoligonoConvexo<Integer,IntPoint> aHull:new ConvexHull().getRingsOfConvexFigure()){
-			System.out.println(aHull.toString());
-		}
-		
+		new ConvexHull().doDebug(args[0]);
 	}
  
 }
