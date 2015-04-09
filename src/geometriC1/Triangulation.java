@@ -14,7 +14,7 @@ public class Triangulation{
 
 	public List triangulate(List<PoligonoConvexo> pols){
 		List triangulaciones = new ArrayList<>();
-		
+
 		for(int i=0; i<pols.size()-1; i++){
 			PoligonoConvexo afuera = pols.get(i);
 			PoligonoConvexo adentro = pols.get(i+1);
@@ -32,8 +32,12 @@ public class Triangulation{
 			int verticesAfuera = afuera.points.size();
 			
 			/* j es el indice actual del poligono "interior" */
-			int j = 1;	
-			AbstractPoint currVertex = adentro.getVertex(j); 
+			int j = 1;
+			AbstractPoint currVertex = adentro.getVertex(0);
+			
+			if(verticesAdentro > 1){
+				currVertex = adentro.getVertex(j);
+			}
 			
 			while(j < verticesAdentro){
 				currVertex = adentro.getVertex(j); 
@@ -90,5 +94,7 @@ public class Triangulation{
 		
 		return triangulaciones;
 	}
+	
+
 
 }

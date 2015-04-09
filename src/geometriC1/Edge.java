@@ -5,7 +5,7 @@ import java.util.List;
 import points.AbstractPoint;
 import geometriC1.ConvexHull;
 
-class Edge {
+public class Edge {
 	AbstractPoint a, b;
 	
 	public Edge(AbstractPoint _a, AbstractPoint _b){
