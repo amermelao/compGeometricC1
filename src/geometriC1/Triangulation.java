@@ -12,12 +12,12 @@ import geometriC1.ConvexHull;
 
 public class Triangulation{
 
-	public List triangulate(List<PoligonoConvexo> pols){
+	public List triangulate(List<PoligonoConvexo<IntPoint>> pols){
 		List triangulaciones = new ArrayList<>();
 		
 		for(int i=0; i<pols.size()-1; i++){
-			PoligonoConvexo afuera = pols.get(i);
-			PoligonoConvexo adentro = pols.get(i+1);
+			PoligonoConvexo<IntPoint> afuera = pols.get(i);
+			PoligonoConvexo<IntPoint> adentro = pols.get(i+1);
 			
 			List<Edge> triang = new ArrayList<Edge>();
 		
@@ -33,7 +33,7 @@ public class Triangulation{
 			
 			/* j es el indice actual del poligono "interior" */
 			int j = 1;	
-			AbstractPoint currVertex = adentro.getVertex(j); 
+			IntPoint currVertex = adentro.getVertex(j); 
 			
 			while(j < verticesAdentro){
 				currVertex = adentro.getVertex(j); 
@@ -51,7 +51,7 @@ public class Triangulation{
 				}else{
 					actual_afuera++;
 					/* Agrega el arco "intermedio" */
-					AbstractPoint prevVertex = adentro.getVertex(j-1);
+					IntPoint prevVertex = adentro.getVertex(j-1);
 					Edge cierra = new Edge(afuera.getVertex(actual_afuera), prevVertex);
 					triang.add(cierra);
 					currEdge = cierra;
@@ -80,7 +80,7 @@ public class Triangulation{
 			 * adentro, une los vértices que "sobran" al último vértice interno */
 			while(actual_afuera < verticesAfuera){
 				actual_afuera++;
-				AbstractPoint currVertexAfuera = afuera.getVertex(actual_afuera);
+				IntPoint currVertexAfuera = afuera.getVertex(actual_afuera);
 				Edge nuevo = new Edge(currVertexAfuera, currVertex);
 				triang.add(nuevo);
 			}

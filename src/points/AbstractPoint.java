@@ -1,13 +1,10 @@
 package points;
 
-public abstract class AbstractPoint<E extends Number> implements Comparable<AbstractPoint<E>> {
-	public E x, y;
-	
-	public abstract E cross(AbstractPoint<E> a, AbstractPoint<E> b);
+public abstract class AbstractPoint<E extends Number>  {
 
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return "x: " + this.x + " y: " + this.y; 
-	}
+	public E x,y;
+	
+	public abstract Object doApoint( E x, E y);
+
+	public abstract E difference(E a, E b);
 }

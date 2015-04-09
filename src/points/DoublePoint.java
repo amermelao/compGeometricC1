@@ -1,20 +1,17 @@
 package points;
 
 public class DoublePoint extends AbstractPoint<Double>{
+	
 
 	@Override
-	public int compareTo(AbstractPoint<Double> p) {
-		
-		Double tmp;
-		
-		if (this.x == p.x) {
-			tmp = this.y - p.y;
-		} else {
-			tmp = this.x - p.x;
-			
-		}
-		
-		return  tmp >= 0? (tmp == 0? 0 : 1 ): -1;
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "x: " + this.x + " y: " + this.y; 
+	}
+	
+	public DoublePoint(double x, double y) {
+		this.x = x;
+		this.y = y;
 	}
 	
 	@Override
@@ -31,10 +28,17 @@ public class DoublePoint extends AbstractPoint<Double>{
 	}
 
 	@Override
-	public Double cross(AbstractPoint<Double> A, AbstractPoint<Double> B) {
+	public Object doApoint(Double x, Double y) {
 		// TODO Auto-generated method stub
-		return (A.x - this.x) * (B.y - this.y) - (A.y - this.y) * (B.x - this.x);
+		return new DoublePoint(x, y);
 	}
 
+	@Override
+	public Double difference(Double a, Double b) {
+		// TODO Auto-generated method stub
+		return a-b;
+	}
+
+	
 
 }

@@ -1,24 +1,16 @@
 package points;
 
-public class IntPoint extends AbstractPoint<Integer>{
+public class IntPoint extends AbstractPoint<Integer> {
 
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "x: " + this.x + " y: " + this.y; 
+	}
+	
 	public IntPoint(int x, int y) {
 		this.x = x;
 		this.y = y;
-	}
-	@Override
-	public int compareTo(AbstractPoint<Integer> p) {
-		
-		int tmp;
-		
-		if (this.x == p.x) {
-			tmp = this.y - p.y;
-		} else {
-			tmp = this.x - p.x;
-			
-		}
-		
-		return  tmp >= 0? (tmp == 0? 0 : 1 ): -1;
 	}
 	
 	@Override
@@ -35,10 +27,19 @@ public class IntPoint extends AbstractPoint<Integer>{
 	}
 
 	@Override
-	public Integer cross(AbstractPoint<Integer> A, AbstractPoint<Integer> B) {
+	public IntPoint doApoint(Integer x, Integer y) {
 		// TODO Auto-generated method stub
-		return (A.x - this.x) * (B.y - this.y) - (A.y - this.y) * (B.x - this.x);
+		return new IntPoint(x, y);
+	}
+	
+	public long cross(IntPoint O, IntPoint A, IntPoint B) {
+		return (A.x - O.x) * (B.y - O.y) - (A.y - O.y) * (B.x - O.x);
 	}
 
+	@Override
+	public Integer difference(Integer a, Integer b) {
+		// TODO Auto-generated method stub
+		return a-b;
+	}
 
 }

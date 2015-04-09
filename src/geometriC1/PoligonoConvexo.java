@@ -1,11 +1,8 @@
 package geometriC1;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import points.AbstractPoint;
-
-public class PoligonoConvexo <F extends Number,E extends AbstractPoint<F>>{
+public class PoligonoConvexo <E>{
 	
 	public List<E> points;
 	
