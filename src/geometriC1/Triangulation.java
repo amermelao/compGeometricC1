@@ -12,7 +12,7 @@ import geometriC1.ConvexHull;
 
 public class Triangulation{
 
-	public List triangulate(List<PoligonoConvexo> pols){
+	public static List<List<Edge>> triangulate(List<PoligonoConvexo<Integer,IntPoint>> pols){
 		List triangulaciones = new ArrayList<>();
 
 		for(int i=0; i<pols.size()-1; i++){
@@ -82,11 +82,12 @@ public class Triangulation{
 			
 			/* En el caso que el poligono de afuera tenga más vértices que el de
 			 * adentro, une los vértices que "sobran" al último vértice interno */
+			actual_afuera++;
 			while(actual_afuera < verticesAfuera){
-				actual_afuera++;
 				AbstractPoint currVertexAfuera = afuera.getVertex(actual_afuera);
 				Edge nuevo = new Edge(currVertexAfuera, currVertex);
 				triang.add(nuevo);
+				actual_afuera++;
 			}
 			
 			triangulaciones.add(triang);

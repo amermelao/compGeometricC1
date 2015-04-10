@@ -76,7 +76,7 @@ public class ConvexHull {
 		
 		return new PoligonoConvexo<Integer, IntPoint>(points);
 	}
-	public List<PoligonoConvexo<Integer,IntPoint>> getRingsOfConvexFigure(String name) throws IOException{
+	public static List<PoligonoConvexo<Integer,IntPoint>> getRingsOfConvexFigure(String name) throws IOException{
 		List<PoligonoConvexo<Integer, IntPoint>> toReturn = new ArrayList<PoligonoConvexo<Integer, IntPoint>>();
 		
 		BufferedReader f = new BufferedReader(new FileReader(name)); 	// "hull.in"  Input Sample => size x y x y x y x y
