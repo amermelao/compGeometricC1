@@ -1,4 +1,7 @@
-package geometriC1;
+package geometriC1.convexhull;
+
+import geometriC1.points.AbstractPoint;
+import geometriC1.poligonoconvexo.PoligonoConvexo;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -11,8 +14,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.StringTokenizer;
-
-import points.AbstractPoint;
  
 public abstract class ConvexHull<F extends Number,E extends AbstractPoint<F>> {
  
@@ -51,11 +52,6 @@ public abstract class ConvexHull<F extends Number,E extends AbstractPoint<F>> {
 			// Build lower hull
 			for (E aPoint:P) {
 				while ( k1 >= 1 && cross(lower.get(k1 - 1), lower.get(k1), aPoint) < 0){
-					/*if(area == 0){
-						if(lower.get(k1 - 1).y <= lower.get(k1).y && lower.get(k1).y <= aPoint.y){
-							break;
-						}
-					}*/
 					lower.remove(k1); 
 					k1--;
 				}
@@ -68,11 +64,6 @@ public abstract class ConvexHull<F extends Number,E extends AbstractPoint<F>> {
 			k2 = -1;
 			for (int cont = P.size() - 1; cont >= 0; cont--) {
 				while (k2 >= 1 &&  cross(upper.get(k2 - 1), upper.get(k2), P.get(cont)) < 0){
-					/*if(area == 0){
-						if(upper.get(k2 - 1).y >= upper.get(k2).y && upper.get(k2).y >= P.get(cont).y){
-							break;
-						}
-					}*/
 					upper.remove(k2);
 					k2--;
 				}
@@ -123,12 +114,11 @@ public abstract class ConvexHull<F extends Number,E extends AbstractPoint<F>> {
 		f.close();
 		
 		this.p = p;
-		return p;
+		return new ArrayList<E>(p);
 	}
+	
 	public List<PoligonoConvexo<E>> getRingsOfConvexFigure() throws IOException{
 		List<PoligonoConvexo< E>> toReturn = new ArrayList<PoligonoConvexo< E>>();
-		
-		 
 		
 		while(p.size() > 0){
 			
@@ -145,26 +135,23 @@ public abstract class ConvexHull<F extends Number,E extends AbstractPoint<F>> {
 		return toReturn;
 	}
 	
-	public void doDebug(String value) throws IOException{
+	public void doDebug(List<E> points,List<PoligonoConvexo<E>> AllHulls) throws IOException{
 		int cont = 0;
-		List<E> points = readDate(value);
 		
 		BufferedWriter outp = new BufferedWriter(new FileWriter(new File("points.dat")));
-		for(E aPoint: points){
+		for(E aPoint : points){
 			outp.write("" + aPoint.x + " " + aPoint.y);
 			outp.newLine();
 		}
-		
 		outp.close();
 		
-		for(PoligonoConvexo<E> aHull: getRingsOfConvexFigure()){
+		for(PoligonoConvexo<E> aHull : AllHulls){
 			BufferedWriter out = new BufferedWriter(new FileWriter(new File("data" + cont + ".dat")));
 			cont++;
 			for(E aPoint: aHull.points){
 				out.write("" + aPoint.x + " " + aPoint.y);
 				out.newLine();
 			}
-			
 			out.close();
 		}
 	}

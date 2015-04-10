@@ -1,8 +1,6 @@
-package geometriC1;
+package geometriC1.convexhull;
 
-import java.io.IOException;
-
-import points.IntPoint;
+import geometriC1.points.IntPoint;
 
 public class IntConvexHull extends ConvexHull<Integer, IntPoint>
 {
@@ -26,8 +24,5 @@ public class IntConvexHull extends ConvexHull<Integer, IntPoint>
 	public Integer parseSide(String value) {
 		return Integer.parseInt(value);
 	}
-	
-	static public void main(String [] args) throws IOException{
-		new IntConvexHull().doDebug(args[0]);
-	}
+
 }

@@ -1,6 +1,7 @@
-package points;
+package geometriC1.points;
 
-public class IntPoint extends AbstractPoint<Integer> {
+public class DoublePoint extends AbstractPoint<Double>{
+	
 
 	@Override
 	public String toString() {
@@ -8,7 +9,7 @@ public class IntPoint extends AbstractPoint<Integer> {
 		return "x: " + this.x + " y: " + this.y; 
 	}
 	
-	public IntPoint(int x, int y) {
+	public DoublePoint(double x, double y) {
 		this.x = x;
 		this.y = y;
 	}
@@ -16,8 +17,8 @@ public class IntPoint extends AbstractPoint<Integer> {
 	@Override
 	public boolean equals(Object obj) {
 		// TODO Auto-generated method stub
-		if(obj instanceof IntPoint){
-			IntPoint aux = (IntPoint) obj;
+		if(obj instanceof DoublePoint){
+			DoublePoint aux = (DoublePoint) obj;
 			if(this.x.equals(aux.x) && this.y.equals(aux.y)){
 				return true;
 			}
@@ -27,19 +28,17 @@ public class IntPoint extends AbstractPoint<Integer> {
 	}
 
 	@Override
-	public IntPoint doApoint(Integer x, Integer y) {
+	public Object doApoint(Double x, Double y) {
 		// TODO Auto-generated method stub
-		return new IntPoint(x, y);
-	}
-	
-	public long cross(IntPoint O, IntPoint A, IntPoint B) {
-		return (A.x - O.x) * (B.y - O.y) - (A.y - O.y) * (B.x - O.x);
+		return new DoublePoint(x, y);
 	}
 
 	@Override
-	public Integer difference(Integer a, Integer b) {
+	public Double difference(Double a, Double b) {
 		// TODO Auto-generated method stub
 		return a-b;
 	}
+
+	
 
 }

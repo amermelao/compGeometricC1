@@ -1,8 +1,6 @@
-package geometriC1;
+package geometriC1.convexhull;
 
-import java.io.IOException;
-
-import points.DoublePoint;
+import geometriC1.points.DoublePoint;
 
 public class DoubleConvexHull extends ConvexHull<Double, DoublePoint>{
 
@@ -28,8 +26,4 @@ public class DoubleConvexHull extends ConvexHull<Double, DoublePoint>{
 		return Double.parseDouble(value);
 	}
 	
-	static public void main(String [] args) throws IOException{
-		new DoubleConvexHull().doDebug(args[0]);
-	}
-
 }

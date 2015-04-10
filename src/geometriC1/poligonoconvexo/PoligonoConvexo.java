@@ -1,4 +1,4 @@
-package geometriC1;
+package geometriC1.poligonoconvexo;
 
 import java.util.List;
 

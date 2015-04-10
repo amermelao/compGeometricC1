@@ -1,4 +1,4 @@
-package points;
+package geometriC1.points;
 
 public abstract class AbstractPoint<E extends Number>  {
 
