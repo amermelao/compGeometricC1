@@ -9,9 +9,6 @@ import geometriC1.poligonoconvexo.PoligonoConvexo;
 import geometriC1.triangulacion.DoubleTriangulation;
 import geometriC1.triangulacion.IntTriangulation;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
@@ -29,32 +26,20 @@ public class Main {
 		
 		List<List<Edge<IntPoint,Integer>>> triAng = tri.triangulate(poligonos);
 		
-		int selected = (triAng.size()-1)/2;
-		List<Edge<IntPoint,Integer>> aux = triAng.get(selected);
+		
+		
+		parseOutput<Integer, IntPoint> parser = new parseOutput<Integer, IntPoint>(){
 
-		System.out.println(selected );
-		BufferedWriter out = new BufferedWriter(new FileWriter(new File("triang.dat")));
-		int cont;
-		for( cont = 0; cont < aux.size()-1; cont+=2){
-			Edge<IntPoint,Integer> a = aux.get(cont);
-			Edge<IntPoint,Integer> b = aux.get(cont+1);
+			@Override
+			public geometriC1.parseOutput.Triangulo<IntPoint> newOne(
+					IntPoint p1, IntPoint p2, IntPoint p3) {
+				// TODO Auto-generated method stub
+				return new Triangulo<IntPoint>(p1, p2, p3);
+			}
 			
-			IntPoint p1 = a.a;
-			IntPoint p2 = a.b;
-			IntPoint p3 = b.b;
-			out.write("" + p1.x + " " + p1.y + " " + p2.x + " " + p2.y + " " + p3.x + " " + p3.y );
-			out.newLine();
-		}
-		Edge<IntPoint,Integer> a = aux.get(cont);
-		Edge<IntPoint,Integer> b = aux.get(0);
+		};
 		
-		IntPoint p1 = a.a;
-		IntPoint p2 = a.b;
-		IntPoint p3 = b.b;
-		out.write("" + p1.x + " " + p1.y + " " + p2.x + " " + p2.y + " " + p3.x + " " + p3.y );
-		out.newLine();
-		
-		out.close();
+		parser.parse(triAng, points);
 	}
 	
 	public static void doDouble(String location) throws IOException{
@@ -69,32 +54,18 @@ public class Main {
 		
 		List<List<Edge<DoublePoint,Double>>> triAng = tri.triangulate(poligonos);
 		
-		int selected = (triAng.size()-1)/2;
-		List<Edge<DoublePoint,Double>> aux = triAng.get(selected);
+		parseOutput<Double, DoublePoint> parser = new parseOutput<Double, DoublePoint>(){
 
-		System.out.println(selected );
-		BufferedWriter out = new BufferedWriter(new FileWriter(new File("triang.dat")));
-		int cont;
-		for( cont = 0; cont < aux.size()-1; cont+=2){
-			Edge<DoublePoint,Double> a = aux.get(cont);
-			Edge<DoublePoint,Double> b = aux.get(cont+1);
+			@Override
+			public geometriC1.parseOutput.Triangulo<DoublePoint> newOne(
+					DoublePoint p1, DoublePoint p2, DoublePoint p3) {
+				// TODO Auto-generated method stub
+				return new Triangulo<DoublePoint>(p1, p2, p3);
+			}
 			
-			DoublePoint p1 = a.a;
-			DoublePoint p2 = a.b;
-			DoublePoint p3 = b.b;
-			out.write("" + p1.x + " " + p1.y + " " + p2.x + " " + p2.y + " " + p3.x + " " + p3.y );
-			out.newLine();
-		}
-		Edge<DoublePoint,Double> a = aux.get(cont);
-		Edge<DoublePoint,Double> b = aux.get(0);
+		};
 		
-		DoublePoint p1 = a.a;
-		DoublePoint p2 = a.b;
-		DoublePoint p3 = b.b;
-		out.write("" + p1.x + " " + p1.y + " " + p2.x + " " + p2.y + " " + p3.x + " " + p3.y );
-		out.newLine();
-		
-		out.close();
+		parser.parse(triAng, points);
 	}
 	static public void main(String [] args) throws IOException{
 		
