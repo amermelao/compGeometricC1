@@ -9,6 +9,7 @@ import geometriC1.poligonoconvexo.PoligonoConvexo;
 public abstract class Triangulation<E,F>{//E point,F type point
 
 	protected abstract Edge<E,F> newEdge(E a, E b);
+	public boolean hasLast = false;
 	
 	public List<List<Edge<E,F>>> triangulate(List<PoligonoConvexo<E>> pols){
 		List<List<Edge<E,F>>> triangulaciones = new ArrayList<>();
@@ -137,6 +138,26 @@ public abstract class Triangulation<E,F>{//E point,F type point
 			triangulaciones.add(triang);
 		}
 		
+		PoligonoConvexo< E> ultimo = pols.get(pols.size()-1);
+		
+		if(ultimo.points.size() > 2){
+			hasLast = true;
+			List<Edge<E,F>> triang = new ArrayList<Edge<E,F>>();
+			
+			// se hace un lado con el primer y se gundo vertice
+			
+			Edge<E,F> nuevo = newEdge(ultimo.getVertex(0), ultimo.getVertex(1));
+			triang.add(nuevo);
+			
+			for(int cont = 2; cont < ultimo.points.size(); cont++){
+				nuevo = newEdge(ultimo.getVertex(cont-1), ultimo.getVertex(cont));
+				triang.add(nuevo);
+				nuevo = newEdge(ultimo.getVertex(0), ultimo.getVertex(cont));
+				triang.add(nuevo);
+			}
+			
+			triangulaciones.add(triang);
+		}
 		return triangulaciones;
 	}
 	

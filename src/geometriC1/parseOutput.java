@@ -10,7 +10,21 @@ import geometriC1.edge.Edge;
 import geometriC1.points.AbstractPoint;
 
 public abstract class parseOutput<F extends Number,E extends AbstractPoint<F>>{
+	
+	public boolean hasLeft = false;
+	public List<String> colores = new ArrayList<String>();
+	
+	public List<String> color = new ArrayList<String>();
+	public int lengthColor = 4;
+	public int nowColor = 0;
+	
 	public void parse(List<List<Edge<E,F>>> t, List<E> allPoints) throws IOException{
+		
+		color.add("1.0 0.0 0.0");
+		color.add("0.0 1.0 0.0");
+		color.add("1.0 0.0 1.0");
+		color.add("0.0 0.0 1.0");
+		
 		BufferedWriter writer =new BufferedWriter( new PrintWriter("output.off", "UTF-8"));
 		writer.write("OFF");
 		writer.newLine();
@@ -30,20 +44,14 @@ public abstract class parseOutput<F extends Number,E extends AbstractPoint<F>>{
 			writer.newLine();
 		}
 		
-		String color = "1.0 0.0 0.0";
 		//se escriben las caras
-		for(Triangulo<E> aTriangulo: triang){
+		for(int contColor = 0; contColor < triang.size(); contColor++){
+			Triangulo<E> aTriangulo = triang.get(contColor);
 			int t1 = allPoints.indexOf(aTriangulo.a);
 			int t2 = allPoints.indexOf(aTriangulo.b);
 			int t3 = allPoints.indexOf(aTriangulo.c);
-			writer.write("3 " + t1 + " " + t2 + " " + t3 + " " + color); //Esta linea hay que cambiarla despues
+			writer.write("3 " + t1 + " " + t2 + " " + t3 + " " + colores.get(contColor)); //Esta linea hay que cambiarla despues
 			writer.newLine();
-			if(color.equals("1.0 0.0 0.0")){
-				color = "0.0 1.0 0.0";
-			}
-			else{
-				color = "1.0 0.0 0.0";
-			}
 		}
 		
 		writer.close();
@@ -66,9 +74,16 @@ public abstract class parseOutput<F extends Number,E extends AbstractPoint<F>>{
 	 */
 	public List<Triangulo<E>> getTriangulos(List<List<Edge<E,F>>> t){
 		List<Triangulo<E>> toReturn = new ArrayList<parseOutput.Triangulo<E>>();
-		
-		for(List<Edge<E,F>> unConjunto : t){
-
+		int color1index,color2index,colorIndex;
+		for(int index = 0; index < t.size(); index++){
+			color1index = nowColor;
+			nowColor = (nowColor+1) % lengthColor;
+			color2index = nowColor;
+			nowColor = (nowColor+1) % lengthColor;
+			
+			colorIndex = color1index;
+			
+			List<Edge<E,F>> unConjunto = t.get(index);
 			int cont;
 			for( cont = 0; cont < unConjunto.size()-1; cont+=2){
 				Edge<E,F> a = unConjunto.get(cont);
@@ -78,15 +93,20 @@ public abstract class parseOutput<F extends Number,E extends AbstractPoint<F>>{
 				E p2 = a.b;
 				E p3 = b.b;
 				toReturn.add(newOne(p1,p2,p3));
+				colores.add(color.get(colorIndex));
+				colorIndex = colorIndex == color1index? color2index: color1index;
 			}
 			Edge<E,F> a = unConjunto.get(cont);
 			Edge<E,F> b = unConjunto.get(0);
 		
-			// es el trieanguulo de los ultimos lados con el primer
-			E p1 = a.a;
-			E p2 = a.b;
-			E p3 = b.b;
-			toReturn.add(newOne(p1,p2,p3));
+			if(hasLeft){
+				// es el trianguulo de los ultimos lados con el primer
+				E p1 = a.a;
+				E p2 = a.b;
+				E p3 = b.b;
+				toReturn.add(newOne(p1,p2,p3));
+				colores.add(color.get(colorIndex));
+			}
 		
 		}
 		

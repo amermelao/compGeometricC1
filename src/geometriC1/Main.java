@@ -39,6 +39,8 @@ public class Main {
 			
 		};
 		
+		parser.hasLeft = tri.hasLast;
+		
 		parser.parse(triAng, points);
 	}
 	
