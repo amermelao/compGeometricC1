@@ -39,6 +39,8 @@ public abstract class Triangulation<E,F>{//E point,F type point
 				currVertex = adentro.getVertex(j);
 			}
 			
+			E lastVertex = afuera.getVertex(afuera.points.size()-1);
+			
 			while(j < verticesAdentro){
 				currVertex = adentro.getVertex(j); 
 				/* Si currVertex está a la derecha de currEdge */
@@ -134,6 +136,12 @@ public abstract class Triangulation<E,F>{//E point,F type point
 			
 			Edge<E,F> nuevo = newEdge(afuera.getVertex(afuera.points.size()-1), afuera.getVertex(0));
 			triang.add(nuevo);
+			
+			Edge<E,F> ultimo = newEdge(lastVertex, afuera.getVertex(actual_afuera));
+			triang.add(ultimo);
+			
+			Edge<E,F> ultimoafuera = newEdge(afuera.getVertex(0), afuera.getVertex(afuera.points.size()-1));
+			triang.add(ultimoafuera);
 			
 			triangulaciones.add(triang);
 		}
