@@ -1,0 +1,8 @@
+Para correr el programa agregar los siguentes argumentos:
+
+<filePath> <triangulationOptions>
+
+triangulationOptions:
+ -i para triangulacion entera.
+ -d para treiangulacion en punto flotante.
+ 
