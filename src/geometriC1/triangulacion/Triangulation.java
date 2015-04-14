@@ -50,7 +50,8 @@ public abstract class Triangulation<E,F>{//E point,F type point
 					//new Edge(adentro.getVertex(j-1), adentro.getVertex(j));
 					triang.add(nuevo2);
 					
-					Edge<E,F> nuevo = newEdge(currEdge.a, currVertex);//new Edge(currEdge.a, currVertex);
+					E currVertexAfuera = afuera.getVertex(actual_afuera);
+					Edge<E,F> nuevo = newEdge(currVertexAfuera, currVertex);//new Edge(currEdge.a, currVertex);
 					triang.add(nuevo);
 					currEdge = nuevo;
 					
@@ -76,6 +77,15 @@ public abstract class Triangulation<E,F>{//E point,F type point
 					/* Mientras currVertex esté a la izquierda de currEdge */
 					while(currEdge.toLeft(currEdge, currVertex)){
 						actual_afuera++;
+						if(actual_afuera == afuera.points.size()){
+							break;
+						}else{
+							Edge<E,F> cl = newEdge(afuera.getVertex(actual_afuera-1), afuera.getVertex(actual_afuera));
+							triang.add(cl);
+						}
+						Edge<E,F> cl2 = newEdge(afuera.getVertex(actual_afuera), prevVertex);
+						triang.add(cl2);
+						currEdge = cl2;
 						if(actual_afuera >= verticesAfuera){
 							break;
 						}
@@ -114,6 +124,8 @@ public abstract class Triangulation<E,F>{//E point,F type point
 				triang.add(nuevo);
 				actual_afuera++;
 			}
+			Edge<E,F> ultimoadentro = newEdge(adentro.getVertex(adentro.points.size()-1), adentro.getVertex(0));
+			triang.add(ultimoadentro);
 
 			// se agrega el edge entre el ultimo y primert vertice de afuera
 			
@@ -137,8 +149,13 @@ public abstract class Triangulation<E,F>{//E point,F type point
 			Edge<E,F> nuevo = newEdge(afuera.getVertex(afuera.points.size()-1), afuera.getVertex(0));
 			triang.add(nuevo);
 			
-			Edge<E,F> ultimo = newEdge(lastVertex, afuera.getVertex(actual_afuera));
-			triang.add(ultimo);
+			if(actual_afuera == afuera.points.size()){
+				Edge<E,F> ultimo = newEdge(lastVertex, afuera.getVertex(actual_afuera-1));
+				triang.add(ultimo);
+			}else{
+				Edge<E,F> ultimo = newEdge(lastVertex, afuera.getVertex(actual_afuera));
+				triang.add(ultimo);
+			}
 			
 			Edge<E,F> ultimoafuera = newEdge(afuera.getVertex(0), afuera.getVertex(afuera.points.size()-1));
 			triang.add(ultimoafuera);
